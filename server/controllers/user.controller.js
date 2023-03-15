@@ -1,4 +1,4 @@
-import User from '../mongodb/models/user.js';
+import User from "../mongodb/models/user.js";
 
 const getAllUsers = async (req, res) => {
   try {
@@ -6,7 +6,7 @@ const getAllUsers = async (req, res) => {
 
     res.status(200).json(users);
   } catch (error) {
-    res.status(500).json({ message: error.message })
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -16,17 +16,17 @@ const createUser = async (req, res) => {
 
     const userExists = await User.findOne({ email });
 
-    if(userExists) return res.status(200).json(userExists);
+    if (userExists) return res.status(200).json(userExists);
 
     const newUser = await User.create({
       name,
       email,
-      avatar
-    })
+      avatar,
+    });
 
     res.status(200).json(newUser);
   } catch (error) {
-    res.status(500).json({ message: error.message })
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -34,20 +34,16 @@ const getUserInfoByID = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const user = await User.findOne({ _id: id}).populate('allProperties');
+    const user = await User.findOne({ _id: id }).populate("allProperties");
 
-    if(user) {
-      res.status(200).json(user)
+    if (user) {
+      res.status(200).json(user);
     } else {
-      res.status(404).json({ message: 'User not found' });
+      res.status(404).json({ message: "User not found" });
     }
   } catch (error) {
-    res.status(500).json({ message: error.message })
+    res.status(500).json({ message: error.message });
   }
 };
 
-export {
-  getAllUsers,
-  createUser,
-  getUserInfoByID,
-}
+export { getAllUsers, createUser, getUserInfoByID };
